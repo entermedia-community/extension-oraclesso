@@ -3,14 +3,14 @@ importPackage( Packages.java.util );
 importPackage( Packages.java.lang );
 importPackage( Packages.com.openedit.modules.update );
 
-var zip = "http://dev.entermediasoftware.com/jenkins/job/extension-oracalesso/lastSuccessfulBuild/artifact/deploy/extension-oraclesso.zip";
+var zip = "http://dev.entermediasoftware.com/jenkins/job/extension-oraclesso/lastSuccessfulBuild/artifact/deploy/extension-oraclesso.zip";
 
 var root = moduleManager.getBean("root").getAbsolutePath();
 var tmp = root + "/WEB-INF/tmp";
 
 log.add("1. GET THE LATEST ZIP FILE");
 var downloader = new Downloader();
-downloader.download( zip, tmp + "/extension-oracalesso.zip");
+downloader.download( zip, tmp + "/extension-oraclesso.zip");
 
 log.add("2. UNZIP WAR FILE");
 var unziper = new ZipUtil();
