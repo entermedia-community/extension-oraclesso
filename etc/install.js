@@ -10,7 +10,7 @@ var tmp = root + "/WEB-INF/tmp";
 
 log.add("1. GET THE LATEST ZIP FILE");
 var downloader = new Downloader();
-downloader.download( war, tmp + "/extension-oracalesso.zip");
+downloader.download( zip, tmp + "/extension-oracalesso.zip");
 
 log.add("2. UNZIP WAR FILE");
 var unziper = new ZipUtil();
