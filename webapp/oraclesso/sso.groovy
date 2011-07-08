@@ -4,7 +4,25 @@
 
 import javax.servlet.http.HttpServletRequest
 
+import com.google.gson.Gson
 import com.openedit.modules.update.Downloader
+import com.openedit.users.User
+import com.openedit.users.UserManager
+
+public class Person
+{
+	public String email;
+}
+
+protected User createNewUser(Person inPerson)
+{
+	//create a user object
+	//go through a list of teams they are on
+	//look up each team
+	//create team if it doesn't exist
+	//add the user to the team/group
+	return null;
+}
 
 protected String getContent(String inUrl)
 {
@@ -21,16 +39,37 @@ protected void oracleSsoLogin()
 	String personinfo = "http://pine-stage.hbs.edu/teamMgmt/internal/ws.htm?action=getTeamInfo&personId=615538";
 	
 	String jsonteaminfo;
-	if(pid)
+	try
 	{
-		jsonteaminfo = getContent(personinfo + pid);
+		if(pid)
+		{
+			jsonteaminfo = getContent(personinfo + pid);
+		}
+		else
+		{
+			jsonteaminfo = getContent(personinfo);
+		}
 	}
-	else
+	catch(Exception e)
 	{
-		jsonteaminfo = getContent(personinfo);
+		context.putPageValue("ssoerror", "Failed to logon using SSO");
 	}
-	//String jsonteam = getContent(teaminfo + tid);
+	
 	context.putPageValue("jsonresponse", jsonteaminfo);
+	
+	Gson gson = new Gson();
+	Person person = gson.fromJson(jsonteaminfo, Person.class);
+	
+	//search for a user
+	UserManager um = userManager;
+	User user = um.getUserByEmail(person.email);
+	if(user == null)
+	{
+		user = createNewUser(person);	
+	}
+	
+	//auto login user
+	context.putSessionValue("user", user);
 }
 
 oracleSsoLogin();
