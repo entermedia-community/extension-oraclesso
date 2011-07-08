@@ -3,7 +3,7 @@ importPackage( Packages.java.util );
 importPackage( Packages.java.lang );
 importPackage( Packages.com.openedit.modules.update );
 
-var zip = "http://dev.entermediasoftware.com/jenkins/job/extension-oraclesso/lastSuccessfulBuild/artifact/deploy/extension-oraclesso.zip";
+var zip = "http://dev.entermediasoftware.com/jenkins/job/extension-oracalesso/lastSuccessfulBuild/artifact/deploy/extension-oraclesso.zip";
 
 var root = moduleManager.getBean("root").getAbsolutePath();
 var tmp = root + "/WEB-INF/tmp";

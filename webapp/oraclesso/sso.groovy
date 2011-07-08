@@ -54,8 +54,8 @@ protected void oracleSsoLogin()
 {
 	HttpServletRequest requestHeader = context.getRequest();
 	String pid = requestHeader.getHeader("HBS_PERSON_ID");
-	pid = "641292";
-	pid = "615538";
+	//pid = "641292";
+	//pid = "615538";
 	context.putPageValue("personid", pid);
 	//String tid = requestHeader.getHeader("teamid");  //could be multiple teamids, guess need to split these
 	//String teaminfo = "http://pine-stage.hbs.edu/teamMgmt/internal/ws.htm?action=getTeamInfo&teamId=498211";
