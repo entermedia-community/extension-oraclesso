@@ -41,7 +41,6 @@ protected void generateTeams(User inUser, TeamInfo inTeamInfo)
 			group = um.createGroup(team.id, team.publicName);
 		}
 		inUser.addGroup(group);
-		um.saveUser(inUser);
 	}
 }
 
@@ -55,7 +54,7 @@ protected void oracleSsoLogin()
 {
 	HttpServletRequest requestHeader = context.getRequest();
 	String pid = requestHeader.getHeader("HBS_PERSON_ID");
-	pid = "641929";
+	pid = "641292";
 	pid = "615538";
 	context.putPageValue("personid", pid);
 	//String tid = requestHeader.getHeader("teamid");  //could be multiple teamids, guess need to split these
@@ -85,13 +84,14 @@ protected void oracleSsoLogin()
 		user = um.createUser(pid, null);
 		Group guestgroup = um.getGroup("guest");
 		user.addGroup(guestgroup);
-		um.saveUser(user);
 	}
 	
 	generateTeams(user, teams);
+	um.saveUser(user);
 	
 	//auto login user
 	context.putSessionValue("user", user);
+	context.redirect("/eml/index.html");
 }
 
 oracleSsoLogin();
