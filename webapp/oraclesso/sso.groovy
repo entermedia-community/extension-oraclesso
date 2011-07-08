@@ -34,6 +34,7 @@ protected void oracleSsoLogin()
 {
 	HttpServletRequest requestHeader = context.getRequest();
 	String pid = requestHeader.getHeader("HBS_PERSON_ID");
+	context.putSessionValue("personid", pid);
 	//String tid = requestHeader.getHeader("teamid");  //could be multiple teamids, guess need to split these
 	//String teaminfo = http://pine-stage.hbs.edu/teamMgmt/internal/ws.htm?action=getTeamInfo&teamId=498211;
 	String personinfo = "http://pine-stage.hbs.edu/teamMgmt/internal/ws.htm?action=getTeamInfo&personId=615538";
@@ -57,19 +58,19 @@ protected void oracleSsoLogin()
 	
 	context.putPageValue("jsonresponse", jsonteaminfo);
 	
-	Gson gson = new Gson();
-	Person person = gson.fromJson(jsonteaminfo, Person.class);
+	//Gson gson = new Gson();
+	//Person person = gson.fromJson(jsonteaminfo, Person.class);
 	
 	//search for a user
-	UserManager um = userManager;
-	User user = um.getUserByEmail(person.email);
-	if(user == null)
-	{
-		user = createNewUser(person);	
-	}
+	//UserManager um = userManager;
+	//User user = um.getUserByEmail(person.email);
+	//if(user == null)
+	//{
+	//	user = createNewUser(person);	
+	//}
 	
 	//auto login user
-	context.putSessionValue("user", user);
+	//context.putSessionValue("user", user);
 }
 
 oracleSsoLogin();
