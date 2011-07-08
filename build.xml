@@ -32,7 +32,7 @@
 	<target name="zip" >
 		<mkdir dir="${deployDir}/builds/"/>
 		<zip destfile="${deployDir}/${appname}.zip" >			
-			<zipfileset dir="${webapp}" />
+			<zipfileset dir="${webapp}" prefix="webapp"/>
 		</zip>
 	  </target>
 	   
