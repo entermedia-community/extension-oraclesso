@@ -91,7 +91,7 @@ protected void oracleSsoLogin()
 	
 	//auto login user
 	context.putSessionValue("user", user);
-	context.redirect("/eml/index.html");
+	context.redirect("/hbs/index.html");
 }
 
 oracleSsoLogin();
