@@ -10,7 +10,7 @@ public class RolesTest extends BaseEnterMediaTest {
 	@Test
 	public void testAddRoles() 
 	{
-		WebPageRequest req = getFixture().createPageRequest("/hbs/authentication/nopermissions.html");
+		WebPageRequest req = getFixture().createPageRequest("/eml/authentication/nopermissions.html");
 		req.setRequestParameter("HBS_PERSON_ID","641292");
 		getFixture().getEngine().executePathActions(req);
 		
