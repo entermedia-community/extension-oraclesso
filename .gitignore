@@ -1,1 +1,6 @@
-bin/*.class
+# Eclipse
+.settings
+.metadata
+Servers
+bin
+target
