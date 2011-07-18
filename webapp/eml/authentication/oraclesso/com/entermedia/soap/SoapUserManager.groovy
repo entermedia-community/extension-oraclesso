@@ -72,9 +72,11 @@ public class SoapUserManager {
 			String groupid = role.elementText("roleCode");
 			Group group = getUserManager().getGroup(groupid);
 			if (group == null) {
-				throw new OpenEditException("Group Not Found. " + groupid);
+				//TODO: add group data and enable this exception
+				//throw new OpenEditException("Group Not Found. " + groupid);
+			}else{
+				inUser.addGroup(group);
 			}
-			inUser.addGroup(group);
 		}
 	}
 
