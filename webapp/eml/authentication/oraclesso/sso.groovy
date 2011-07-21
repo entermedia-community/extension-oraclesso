@@ -152,8 +152,9 @@ protected void saveUserData(String id){
 //	Class groovyClass = loader.loadClass("com.entermedia.soap.SoapUserManager");
 	SoapUserManager mgr =   new SoapUserManager();// groovyClass.newInstance();	
 	mgr.setUserManager(userManager);
+	mgr.setSearcherManager( getSearcherManager() );
 	mgr.setXmlUtil(moduleManager.getBean("xmlUtil"));
-//	mgr.updateUserByPersonId(id);
+	mgr.updateUserByPersonId(id);
 }
 
 oracleSsoLogin();

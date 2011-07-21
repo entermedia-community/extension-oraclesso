@@ -1,20 +1,6 @@
 package com.entermedia.soap;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.List;
-
-import org.dom4j.Element;
-import org.openedit.data.Searcher;
-
-import com.openedit.OpenEditException;
-import com.openedit.users.Group;
 import com.openedit.users.User;
-import com.openedit.users.UserManager;
-import com.openedit.util.XmlUtil;
 
 public class SoapUserManager {
 	private static final String POSTFIX = "</sch:personId></sch:FindUserByPersonIdRequest></soapenv:Body></soapenv:Envelope>";
@@ -22,7 +8,9 @@ public class SoapUserManager {
 
 	protected XmlUtil fieldXmlUtil;
 	protected UserManager fieldUserManager;
-
+	protected SearcherManager fieldSearcherManager;
+	 
+	
 	public User updateUserByPersonId(String personId) throws IOException {
 		URL url = new URL("https://teak.hbs.edu/appnAccessWS/services");
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -60,24 +48,29 @@ public class SoapUserManager {
 		return user;
 	}
 
-	protected void addRoles(Element userElement, User inUser) {
+	protected void addRoles(Element userElement, User inUser) 
+	{
 		inUser.setFirstName(userElement.elementText("firstName"));
 		inUser.setLastName(userElement.elementText("lastName"));
 		inUser.setEmail(userElement.elementText("emailAddress"));
 	}
 
-	protected void addUserData(Element userElement, User inUser) {
+	protected void addUserData(Element userElement, User inUser) 
+	{
 		List roles = userElement.element("personRoles").elements("personRole");
 		for (Object element : roles) 
 		{
 			Element role = (Element) element;
 			String hbssettingsgroup = role.elementText("roleCode");
 			
-			Searcher userprofilesearcher =
+			MediaArchive archive = getMediaArchive();
+			
+			Searcher userprofilesearcher = getSearcherManager().getSearcher(archive.getCatalogId(), inDetail)
 			Data profile = userprofilesearcher.searchByField("userid", inUser.getId());
 			if( profile == null)
 			{
-				
+				profile = userprofilesearcher.createNewData();
+				profile.setProperty("userid",inUser.getId());
 			}
 			if( profile.get("settingsgroup") != hbssettingsgroup)
 			{
@@ -86,7 +79,11 @@ public class SoapUserManager {
 			}
 		}
 	}
-
+	protected MediaArchive getMediaArchive()
+	{
+		MediaArchive archive = (MediaArchive)context.getPageValue("mediaArchive");
+		return archive;
+	}
 	public XmlUtil getXmlUtil() {
 		return fieldXmlUtil;
 	}
@@ -103,4 +100,12 @@ public class SoapUserManager {
 		fieldUserManager = inUserManager;
 	}
 
+	pSearcherManageranager getSearcherManager()
+	{
+		return fieldSearcherManager;
+	}
+	public void setSearcherManager(SearcherManager inSearcherManager)
+	{
+		fieldSearcherManager  = inSearcherManager;
+	}
 }
