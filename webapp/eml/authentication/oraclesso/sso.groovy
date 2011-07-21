@@ -7,12 +7,12 @@ import javax.servlet.http.HttpServletRequest;
 import org.openedit.data.Searcher;
 import org.openedit.data.SearcherManager;
 
-import com.google.gson.Gson;
 import com.openedit.modules.update.Downloader
 import com.openedit.users.Group
 import com.openedit.users.User
 import com.openedit.users.UserManager
 import com.entermedia.soap.SoapUserManager;
+import com.google.gson.Gson 
 
 public class Student
 {
@@ -154,7 +154,7 @@ protected void saveUserData(String id){
 	mgr.setUserManager(userManager);
 	mgr.setSearcherManager( getSearcherManager() );
 	mgr.setXmlUtil(moduleManager.getBean("xmlUtil"));
-	mgr.context = context;
+	mgr.setContext( context );
 	mgr.updateUserByPersonId(id);
 }
 

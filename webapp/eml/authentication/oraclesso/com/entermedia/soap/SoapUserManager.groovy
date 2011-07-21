@@ -117,4 +117,8 @@ public class SoapUserManager {
 	{
 		fieldSearcherManager  = inSearcherManager;
 	}
+	public void setContext(WebPageRequest inContext)
+	{
+		context = inContext;
+	}
 }
