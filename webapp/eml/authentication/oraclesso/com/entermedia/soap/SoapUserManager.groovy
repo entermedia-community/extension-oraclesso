@@ -100,7 +100,7 @@ public class SoapUserManager {
 		fieldUserManager = inUserManager;
 	}
 
-	pSearcherManageranager getSearcherManager()
+	public SearcherManager getSearcherManager()
 	{
 		return fieldSearcherManager;
 	}
