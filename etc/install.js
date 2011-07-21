@@ -20,7 +20,7 @@ var files = new FileUtils();
 log.add("4. UPGRADE BASE DIR");
 files.deleteAll( root + "/WEB-INF/base/system/components/authentication/oraclesso");
 files.deleteAll( root + "/WEB-INF/base/system/components/authentication/nopermissions.xconf");
-files.copyFiles( tmp + "/webapp/eml/authentication/oraclesso", root + "/WEB-INF/base/system/components/authentication");
+files.copyFiles( tmp + "/webapp/eml/authentication/oraclesso", root + "/WEB-INF/base/system/components/authentication/oraclesso/");
 files.copyFiles( tmp + "/webapp/eml/authentication/nopermissions.xconf", root + "/WEB-INF/base/system/components/authentication");
 
 log.add("5. CLEAN UP");

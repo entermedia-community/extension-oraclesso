@@ -8,6 +8,7 @@ import java.net.URL;
 import java.util.List;
 
 import org.dom4j.Element;
+import org.openedit.data.Searcher;
 
 import com.openedit.OpenEditException;
 import com.openedit.users.Group;
@@ -67,15 +68,21 @@ public class SoapUserManager {
 
 	protected void addUserData(Element userElement, User inUser) {
 		List roles = userElement.element("personRoles").elements("personRole");
-		for (Object element : roles) {
+		for (Object element : roles) 
+		{
 			Element role = (Element) element;
-			String groupid = role.elementText("roleCode");
-			Group group = getUserManager().getGroup(groupid);
-			if (group == null) {
-				//TODO: add group data and enable this exception
-				//throw new OpenEditException("Group Not Found. " + groupid);
-			}else{
-				inUser.addGroup(group);
+			String hbssettingsgroup = role.elementText("roleCode");
+			
+			Searcher userprofilesearcher =
+			Data profile = userprofilesearcher.searchByField("userid", inUser.getId());
+			if( profile == null)
+			{
+				
+			}
+			if( profile.get("settingsgroup") != hbssettingsgroup)
+			{
+				profile.setProperty("settingsgroup",hbssettingsgroup);
+				userprofilesearcher.saveData(profile,null);
 			}
 		}
 	}

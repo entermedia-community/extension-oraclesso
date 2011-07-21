@@ -1,6 +1,12 @@
+import java.util.Iterator;
+
 import java.util.Iterator
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.openedit.data.Searcher;
+import org.openedit.data.SearcherManager;
+
 import com.google.gson.Gson;
 import com.openedit.modules.update.Downloader
 import com.openedit.users.Group
@@ -8,12 +14,21 @@ import com.openedit.users.User
 import com.openedit.users.UserManager
 import com.entermedia.soap.SoapUserManager;
 
+public class Student
+{
+	public String lastName;
+	public String email;
+	public String personId;
+	public String firstName;
+}
+
 public class Team
 {
 	public String id;
 	public String location;
 	public String publicName;
 	public String prettyPublicName;
+	public List<Student> studentList;
 }
 
 public class Status
@@ -28,10 +43,19 @@ public class TeamInfo
 	public Status status;
 }
 
+protected SearcherManager getSearcherManager()
+{
+	SearcherManager sm = (SearcherManager)moduleManager.getBean("searcherManager");
+	return sm;
+}
+
 //go through list of teams in teaminfo
 protected void generateTeams(User inUser, TeamInfo inTeamInfo)
 {
-	for (Iterator iterator = inTeamInfo.teams.iterator(); iterator.hasNext();) {
+	Searcher groupSearcher = getSearcherManager().getSearcher("system", "group");
+	Searcher userSearcher = getSearcherManager().getSearcher("system", "user");
+	for (Iterator iterator = inTeamInfo.teams.iterator(); iterator.hasNext();) 
+	{
 		Team team = (Team) iterator.next();
 		//look up the group by name
 		UserManager um = userManager;
@@ -39,8 +63,31 @@ protected void generateTeams(User inUser, TeamInfo inTeamInfo)
 		if(group == null)
 		{
 			group = um.createGroup(team.id, team.publicName);
+			groupSearcher.saveData(group, null);
 		}
 		inUser.addGroup(group);
+		
+		//create users for the team members if necessary
+		for (Iterator iterator2 = team.studentList.iterator(); iterator2.hasNext();)
+		{
+			Student student = (Student) iterator2.next();
+			//try to load the user
+			User member = um.getUser(student.personId);
+			if(member == null)
+			{
+				member = um.createUser(student.personId, null);
+				member.setEmail(student.email);
+				member.setFirstName(student.firstName);
+				member.setLastName(student.lastName);
+				member.addGroup(group);
+				userSearcher.saveData(member, null);
+			}
+			else if( !member.isInGroup(group))
+			{
+				member.addGroup(group);
+				userSearcher.saveData(member, null);
+			}
+		}
 	}
 }
 
@@ -106,7 +153,7 @@ protected void saveUserData(String id){
 	SoapUserManager mgr =   new SoapUserManager();// groovyClass.newInstance();	
 	mgr.setUserManager(userManager);
 	mgr.setXmlUtil(moduleManager.getBean("xmlUtil"));
-	mgr.updateUserByPersonId(id);
+//	mgr.updateUserByPersonId(id);
 }
 
 oracleSsoLogin();
