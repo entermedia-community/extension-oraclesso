@@ -1,6 +1,15 @@
 package com.entermedia.soap;
 
+import com.openedit.OpenEditException 
+import com.openedit.WebPageRequest;
 import com.openedit.users.User;
+import com.openedit.users.UserManager 
+import com.openedit.util.XmlUtil 
+import org.dom4j.Element 
+import org.openedit.Data 
+import org.openedit.data.Searcher 
+import org.openedit.data.SearcherManager 
+import org.openedit.entermedia.MediaArchive 
 
 public class SoapUserManager {
 	private static final String POSTFIX = "</sch:personId></sch:FindUserByPersonIdRequest></soapenv:Body></soapenv:Envelope>";
@@ -9,7 +18,7 @@ public class SoapUserManager {
 	protected XmlUtil fieldXmlUtil;
 	protected UserManager fieldUserManager;
 	protected SearcherManager fieldSearcherManager;
-	 
+	public WebPageRequest context;
 	
 	public User updateUserByPersonId(String personId) throws IOException {
 		URL url = new URL("https://teak.hbs.edu/appnAccessWS/services");

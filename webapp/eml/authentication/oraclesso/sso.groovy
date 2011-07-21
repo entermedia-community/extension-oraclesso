@@ -154,6 +154,7 @@ protected void saveUserData(String id){
 	mgr.setUserManager(userManager);
 	mgr.setSearcherManager( getSearcherManager() );
 	mgr.setXmlUtil(moduleManager.getBean("xmlUtil"));
+	mgr.context = context;
 	mgr.updateUserByPersonId(id);
 }
 
