@@ -18,10 +18,10 @@ unziper.unzip(  tmp + "/extension-oraclesso.zip",  tmp );
 
 var files = new FileUtils();
 log.add("4. UPGRADE BASE DIR");
-files.deleteAll( root + "/WEB-INF/base/emfrontend/components/authentication/oraclesso");
-files.deleteAll( root + "/WEB-INF/base/emfrontend/components/authentication/nopermissions.xconf");
-files.copyFiles( tmp + "/webapp/eml/authentication/oraclesso", root + "/WEB-INF/base/emfrontend/components/authentication/oraclesso/");
-files.copyFiles( tmp + "/webapp/eml/authentication/nopermissions.xconf", root + "/WEB-INF/base/emfrontend/components/authentication");
+files.deleteAll( root + "/WEB-INF/base/emfrontend/authentication/oraclesso");
+files.deleteAll( root + "/WEB-INF/base/emfrontend/authentication/nopermissions.xconf");
+files.copyFiles( tmp + "/webapp/eml/authentication/oraclesso", root + "/WEB-INF/base/emfrontend/authentication/oraclesso/");
+files.copyFiles( tmp + "/webapp/eml/authentication/nopermissions.xconf", root + "/WEB-INF/base/emfrontend/authentication");
 
 log.add("5. CLEAN UP");
 files.deleteAll(tmp);
