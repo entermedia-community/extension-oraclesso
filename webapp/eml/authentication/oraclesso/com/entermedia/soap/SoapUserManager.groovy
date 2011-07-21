@@ -72,9 +72,9 @@ public class SoapUserManager {
 			Element role = (Element) element;
 			String hbssettingsgroup = role.elementText("roleCode");
 			
-			MediaArchive archive = getMediaArchive();
+			String catalogid = context.findValue("catalogid");
 			
-			Searcher userprofilesearcher = getSearcherManager().getSearcher(archive.getCatalogId(), inDetail)
+			Searcher userprofilesearcher = getSearcherManager().getSearcher(catalogid, inDetail)
 			Data profile = userprofilesearcher.searchByField("userid", inUser.getId());
 			if( profile == null)
 			{
