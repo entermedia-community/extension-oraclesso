@@ -74,11 +74,12 @@ public class SoapUserManager {
 			
 			String catalogid = context.findValue("catalogid");
 			
-			Searcher userprofilesearcher = getSearcherManager().getSearcher(catalogid, inDetail)
+			Searcher userprofilesearcher = getSearcherManager().getSearcher(catalogid, "userprofile");
 			Data profile = userprofilesearcher.searchByField("userid", inUser.getId());
 			if( profile == null)
 			{
 				profile = userprofilesearcher.createNewData();
+				profile.setSourcePath(inUser.getId() );
 				profile.setProperty("userid",inUser.getId());
 			}
 			if( profile.get("settingsgroup") != hbssettingsgroup)
