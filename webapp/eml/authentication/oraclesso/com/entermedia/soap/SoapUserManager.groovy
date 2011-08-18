@@ -21,7 +21,7 @@ public class SoapUserManager {
 	public WebPageRequest context;
 	
 	public User updateUserByPersonId(String personId) throws IOException {
-		URL url = new URL("https://teak.hbs.edu/appnAccessWS/services");
+		URL url = new URL(context.getPageProperty("soapurl"));
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		connection.setRequestMethod("POST");
 		connection.setRequestProperty("Content-Type",

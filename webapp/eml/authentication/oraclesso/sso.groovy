@@ -111,7 +111,7 @@ protected void oracleSsoLogin()
 	context.putPageValue("personid", pid);
 	//String tid = requestHeader.getHeader("teamid");  //could be multiple teamids, guess need to split these
 	//String teaminfo = "http://pine-stage.hbs.edu/teamMgmt/internal/ws.htm?action=getTeamInfo&teamId=498211";
-	String personinfo = "http://pine-stage.hbs.edu/teamMgmt/internal/ws.htm?action=getTeamInfo&personId=";
+	String personinfo = context.getPageProperty("teaminfourl");
 	
 	String jsonteaminfo;
 	try
