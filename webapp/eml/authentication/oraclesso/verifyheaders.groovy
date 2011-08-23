@@ -11,7 +11,7 @@ protected void verifyHeaders()
 	}
 	//check if matches logged in user
 	String loggedinid = context.getUser().getId();
-	if(pid != loggedinid)
+	if(pid != loggedinid && loggedinid != 'admin')
 	{
 		autologin = new OracleSSO();
 		autologin.setUserManager(userManager);
