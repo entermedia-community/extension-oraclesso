@@ -12,8 +12,8 @@ protected void verifyHeaders()
 	String loggedinid = context.getUser().getId();
 	if(pid != loggedinid)
 	{
-		sso autologin = new sso();
-		autologin.oracleSsoLogin();
+		autologin = new sso();
+		autologin.oracleSsoLogin(context);
 	}
 }
 

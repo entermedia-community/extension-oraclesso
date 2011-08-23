@@ -1,16 +1,17 @@
 import java.util.Iterator
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequest
 
-import org.openedit.data.Searcher;
-import org.openedit.data.SearcherManager;
+import org.openedit.data.Searcher
+import org.openedit.data.SearcherManager
 
+import com.entermedia.soap.SoapUserManager
+import com.google.gson.Gson
+import com.openedit.WebPageRequest
 import com.openedit.modules.update.Downloader
 import com.openedit.users.Group
 import com.openedit.users.User
 import com.openedit.users.UserManager
-import com.entermedia.soap.SoapUserManager;
-import com.google.gson.Gson 
 
 public class Student
 {
@@ -95,7 +96,7 @@ protected String getContent(String inUrl)
 	return dl.downloadToString(inUrl);
 }
 
-protected void oracleSsoLogin()
+protected void oracleSsoLogin(WebPageRequest context)
 {
 	
 	String pid = context.getRequestParameter("HBS_PERSON_ID");
@@ -156,6 +157,6 @@ protected void saveUserData(String id){
 	mgr.updateUserByPersonId(id);
 }
 
-oracleSsoLogin();
+oracleSsoLogin(context);
 
 
