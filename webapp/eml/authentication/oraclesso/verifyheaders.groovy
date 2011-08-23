@@ -12,8 +12,11 @@ protected void verifyHeaders()
 	String loggedinid = context.getUser().getId();
 	if(pid != loggedinid)
 	{
-		autologin = new sso();
+		autologin = new OracleSSO();
+		autologin.setUserManager(userManager);
+		autologin.setModuleManager(moduleManager);
 		autologin.oracleSsoLogin(context);
+		log.info("You were not who you said you were.");
 	}
 }
 
