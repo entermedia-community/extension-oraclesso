@@ -1,6 +1,4 @@
 <page>
-	<property name="teaminfourl">http://pine-stage.hbs.edu/teamMgmt/internal/ws.htm</property>
-	<property name="soapurl">https://teak.hbs.edu/appnAccessWS/services</property>
   	<path-action name="Script.run" alltypes="true" >
 		<script>./oraclesso/sso.groovy</script>
 	</path-action>
