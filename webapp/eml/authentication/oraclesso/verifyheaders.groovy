@@ -1,4 +1,5 @@
-import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletRequest;
+import com.entermedia.sso.OracleSSO;
 
 protected void verifyHeaders()
 {
