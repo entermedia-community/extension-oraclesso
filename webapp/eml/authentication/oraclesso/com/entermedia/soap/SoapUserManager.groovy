@@ -82,6 +82,11 @@ public class SoapUserManager {
 				profile.setSourcePath(inUser.getId() );
 				profile.setProperty("userid",inUser.getId());
 			}
+			if(profile.getSourcePath() == null)
+			{
+					profile.setSourcePath(inUser.getId() );
+					profile.setProperty("userid",inUser.getId());
+			}
 			if( profile.get("settingsgroup") != hbssettingsgroup)
 			{
 				profile.setProperty("settingsgroup",hbssettingsgroup);
