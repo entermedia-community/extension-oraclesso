@@ -1,4 +1,7 @@
 package com.entermedia.sso
+
+import java.util.Calendar
+import java.text.SimpleDateFormat
 import java.util.Iterator
 
 import javax.servlet.http.HttpServletRequest
@@ -23,6 +26,13 @@ public class Student
 	public String firstName;
 }
 
+public class ExerciseVO
+{
+	public String startDate;
+	public String endDate;
+	public String revealDate;
+}
+
 public class Team
 {
 	public String id;
@@ -30,6 +40,7 @@ public class Team
 	public String publicName;
 	public String prettyPublicName;
 	public List<Student> studentList;
+	public ExerciseVO exerciseVO;
 }
 
 public class Status
@@ -46,6 +57,9 @@ public class TeamInfo
 
 public class OracleSSO
 {
+	//2011-09-23T16:00:00-04:00
+	protected String fieldDateFormat = "yyyy-MM-dd'T'HH:mm:ssZ";
+	protected SimpleDateFormat fieldFormatter;
 	protected UserManager fieldUserManager;
 	protected ModuleManager fieldModuleManager;
 	
@@ -74,12 +88,32 @@ public class OracleSSO
 		SearcherManager sm = (SearcherManager)getModuleManager().getBean("searcherManager");
 		return sm;
 	}
+	
+	protected SimpleDateFormat getFormatter()
+	{
+		if(fieldFormatter == null)
+		{
+			fieldFormatter = new SimpleDateFormat(fieldDateFormat);
+		}
+		return fieldFormatter;
+	}
+	
+	protected Date parseTeamDate(String inDate)
+	{
+		//we need to remove the colon, simple date formatter doesn't handle a colon in the timezone properly
+		int lastcolon = inDate.lastIndexOf(":");
+		StringBuffer buf = new StringBuffer( inDate.length() - 1 );
+		buf.append(inDate.substring(0, lastcolon)).append(inDate.substring(lastcolon + 1));
+		Date date = getFormatter().parse(buf.toString());
+		return date;
+	}
 
 	//go through list of teams in teaminfo
 	protected void generateTeams(User inUser, TeamInfo inTeamInfo)
 	{
 		Searcher groupSearcher = getSearcherManager().getSearcher("system", "group");
 		Searcher userSearcher = getSearcherManager().getSearcher("system", "user");
+		Calendar today = new GregorianCalendar();
 		for (Iterator iterator = inTeamInfo.teams.iterator(); iterator.hasNext();) 
 		{
 			Team team = (Team) iterator.next();
@@ -89,8 +123,22 @@ public class OracleSSO
 			if(group == null)
 			{
 				group = um.createGroup(team.id, team.publicName);
-				groupSearcher.saveData(group, null);
+				
 			}
+			//check if the group should be enabled
+			Date endDate = parseTeamDate(team.exerciseVO.endDate);
+			Date revealDate = parseTeamDate(team.exerciseVO.revealDate);
+			if(today.after(endDate) || today.before(revealDate))
+			{
+				group.setProperty("enabled", "false");
+			}
+			else
+			{
+				group.setProperty("enabled", "true");
+			}
+			groupSearcher.saveData(group, null);
+			
+			//add the user to the group
 			inUser.addGroup(group);
 			
 			//create users for the team members if necessary
