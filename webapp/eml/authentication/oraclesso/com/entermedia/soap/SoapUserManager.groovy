@@ -52,19 +52,19 @@ public class SoapUserManager {
 		Element userElement = root.element("Body")
 				.element("FindUserByPersonIdResponse").element("user");
 		addUserData(userElement, user);
-		addRoles(userElement, user);
+		//addRoles(userElement, user);
 		getUserManager().saveUser(user);
 		return user;
 	}
 
-	protected void addRoles(Element userElement, User inUser) 
+	protected void addUserData(Element userElement, User inUser) 
 	{
 		inUser.setFirstName(userElement.elementText("firstName"));
 		inUser.setLastName(userElement.elementText("lastName"));
 		inUser.setEmail(userElement.elementText("emailAddress"));
 	}
 
-	protected void addUserData(Element userElement, User inUser) 
+	protected void addRoles(Element userElement, User inUser) 
 	{
 		List roles = userElement.element("personRoles").elements("personRole");
 		for (Object element : roles) 

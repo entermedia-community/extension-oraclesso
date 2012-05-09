@@ -8,6 +8,7 @@
     <property name="build" location="./tmp/oe_upgrade"/>
     <property name="wardir" location="${build}/wartmp"/>
     <property name="webinf" location="WEB-INF"/>
+    <property name="target" location=".."/>
    
   <target name="clean">
   	 <delete dir="${build}" />
@@ -15,11 +16,35 @@
  	
   <target name="update-dependencies" depends="clean">
 		<mkdir dir="${build}"/>
-		<get src="http://dev.entermediasoftware.com/jenkins/job/app-eml/lastSuccessfulBuild/artifact/deploy/extension-oraclesso.zip" dest="${build}/extension-oraclesso.zip" />	
+		<get src="http://dev.entermediasoftware.com/jenkins/view/HBS/job/extension-oraclesso/lastSuccessfulBuild/artifact/deploy/extension-oraclesso.zip" dest="${build}/extension-oraclesso.zip" />	
   </target>
     
   <target name="unzip" depends="update-dependencies">
-    <unzip  src="${build}/extension-oraclesso.zip" dest=".." />
+    <unzip  src="${build}/extension-oraclesso.zip" dest="${build}" />
+  	
+    <delete failonerror="false">
+       <fileset dir="${target}/WEB-INF/base/emfrontend/authentication/oraclesso"/>
+    </delete>
+  	
+    <copy todir="${target}/WEB-INF/base/emfrontend/authentication/oraclesso" preservelastmodified="true">
+       <fileset dir="${build}/unpacked/base/emfrontend/authentication/oraclesso"/>
+    </copy>
+
+    <delete failonerror="false">
+        <fileset file="${target}/WEB-INF/base/emfrontend/authentication/nopermissions.xconf"/>
+    </delete>
+  	
+    <copy todir="../WEB-INF/base/openedit" preservelastmodified="true">
+        <fileset dir="${build}/unpacked/base/openedit"/>
+    </copy>
+<!--
+   	files.deleteAll( root + "/WEB-INF/base/emfrontend/authentication/oraclesso");
+   	files.deleteAll( root + "/WEB-INF/base/emfrontend/authentication/nopermissions.xconf");
+
+  	files.copyFiles( tmp + "/webapp/eml/authentication/oraclesso", root + "/WEB-INF/base/emfrontend/authentication/oraclesso/");
+    files.copyFiles( tmp + "/webapp/eml/authentication/nopermissions.xconf", root + "/WEB-INF/base/emfrontend/authentication");
+-->
+  	
   </target>
  
 </project>
